@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-devops-demo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-boot-devops-demo
+  template:
+    metadata:
+      labels:
+        app: spring-boot-devops-demo
+    spec:
+      containers:
+      - name: app
+        image: docker.io/tausifaa/spring-boot-devops-demo:latest
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
